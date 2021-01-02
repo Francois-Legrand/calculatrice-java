@@ -9,13 +9,29 @@ import javax.swing.JMenuItem;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.awt.event.ActionEvent;
+import java.io.*;
+import java.util.regex.*;
 
 public class calculatrice {
 
 	private JFrame frmCalculatrice;
 	private JTextField textField;
-
+	public double sum = 0;
+	public boolean addition = false;
+	public boolean soustraction = false;
+	public boolean multiplication = false;
+	public boolean division = false;
+	public String textNumber = "";
+	public double numberOneDouble = 0;
+	public double numberTwoDouble = 0;
+	public double intNumber;
+	public String text = "";
+	public ArrayList<Double> tableNumber = new ArrayList<Double>();
+	public static Pattern pattern;
+    public static Matcher matcher;
 	/**
 	 * Launch the application.
 	 */
@@ -48,6 +64,7 @@ public class calculatrice {
 		frmCalculatrice.setTitle("Calculatrice");
 		frmCalculatrice.setBounds(200, 200, 520, 500);
 		frmCalculatrice.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmCalculatrice.setJMenuBar(menuBar);
@@ -98,8 +115,14 @@ public class calculatrice {
 		JButton button_div = new JButton("/");
 		button_div.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String textNumber = textField.getText() + button_div.getText();
-				textField.setText(textNumber);
+				String textNumber = textField.getText();
+				division = true;
+				soustraction = false;
+				addition = false;
+				multiplication = false;
+				numberOneDouble = Double.parseDouble(textNumber);
+				textField.setText("");
+				System.out.println(numberOneDouble);
 			}
 		});
 		button_div.setBounds(265, 125, 75, 55);
@@ -128,6 +151,12 @@ public class calculatrice {
 		button_c.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textField.setText("");
+				sum = 0;
+				textNumber = "";
+				intNumber = 0;
+				text = "";
+				tableNumber = new ArrayList<Double>();
+				System.out.println(text);
 			}
 		});
 		button_c.setBounds(435, 125, 75, 55);
@@ -146,7 +175,9 @@ public class calculatrice {
 		JButton button_5 = new JButton("5");
 		button_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				String textNumber = textField.getText() + button_5.getText();
+				
 				textField.setText(textNumber);
 			}
 		});
@@ -166,8 +197,13 @@ public class calculatrice {
 		JButton button_mult = new JButton("x");
 		button_mult.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String textNumber = textField.getText() + button_mult.getText();
-				textField.setText(textNumber);
+				String textNumber = textField.getText();
+				addition = false;
+				multiplication = true;
+				soustraction = false;
+				numberOneDouble = Double.parseDouble(textNumber);
+				textField.setText("");
+				System.out.println(numberOneDouble);
 			}
 		});
 		button_mult.setBounds(265, 190, 75, 55);
@@ -197,6 +233,7 @@ public class calculatrice {
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String textNumber = textField.getText() + button_1.getText();
+				intNumber = Integer.parseInt(textNumber);
 				textField.setText(textNumber);
 			}
 		});
@@ -226,8 +263,13 @@ public class calculatrice {
 		JButton button_soust = new JButton("-");
 		button_soust.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String textNumber = textField.getText() + button_soust.getText();
-				textField.setText(textNumber);
+				String textNumber = textField.getText();
+				soustraction = true;
+				addition = false;
+				multiplication = false;
+				numberOneDouble = Double.parseDouble(textNumber);
+				textField.setText("");
+				System.out.println(numberOneDouble);
 			}
 		});
 		button_soust.setBounds(265, 257, 75, 55);
@@ -252,7 +294,7 @@ public class calculatrice {
 		button_0.setBounds(9, 322, 75, 55);
 		frmCalculatrice.getContentPane().add(button_0);
 		
-		JButton button_virg = new JButton(",");
+		JButton button_virg = new JButton(".");
 		button_virg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String textNumber = textField.getText() + button_virg.getText();
@@ -265,6 +307,7 @@ public class calculatrice {
 		JButton button_pourcent = new JButton("%");
 		button_pourcent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				String textNumber = textField.getText() + button_pourcent.getText();
 				textField.setText(textNumber);
 			}
@@ -275,14 +318,56 @@ public class calculatrice {
 		JButton button_add = new JButton("+");
 		button_add.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String textNumber = textField.getText() + button_add.getText();
-				textField.setText(textNumber);
+				String textNumber = textField.getText();
+				addition = true;
+				soustraction = false;
+				multiplication = false;
+				numberOneDouble = Double.parseDouble(textNumber);
+				textField.setText("");
+				System.out.println(numberOneDouble);
 			}
 		});
 		button_add.setBounds(265, 322, 75, 55);
 		frmCalculatrice.getContentPane().add(button_add);
 		
 		JButton button_egal = new JButton("=");
+		button_egal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String textNumber = textField.getText();
+				numberTwoDouble = Double.parseDouble(textNumber);
+				if (addition) {
+					sum = numberOneDouble + numberTwoDouble;
+					String textSum = Double.toString(sum);
+					pattern = Pattern.compile(".0");
+			        matcher = pattern.matcher(textSum);
+			        if(matcher.find()) {
+			            String resultFinal = textSum.substring(0, textSum.length() -2);
+			            textField.setText(resultFinal);
+			        }else {
+			        	textField.setText(Double.toString(sum));
+			        }
+					
+					
+				}else if(soustraction) {
+					
+					sum = numberOneDouble - numberTwoDouble;
+					textField.setText(Double.toString(sum));
+				}else if(multiplication) {
+					
+					sum = numberOneDouble * numberTwoDouble;
+					
+					textField.setText(Double.toString(Math.abs(sum)));
+					
+				}else if(division) {
+					
+					sum = numberOneDouble / numberTwoDouble;
+					
+					textField.setText(Double.toString(Math.abs(sum)));
+				}
+				
+			}
+		});
 		
 		button_egal.setBounds(350, 322, 160, 55);
 		frmCalculatrice.getContentPane().add(button_egal);
