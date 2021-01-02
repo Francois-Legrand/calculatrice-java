@@ -1,36 +1,33 @@
 package fr.francois.calculatrice;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JTextField;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.awt.event.ActionEvent;
-import java.io.*;
-import java.util.regex.*;
+import java.text.DecimalFormat;
+import javax.swing.SwingConstants;
+import java.awt.Font;
 
 public class calculatrice {
 
 	private JFrame frmCalculatrice;
 	private JTextField textField;
-	public double sum = 0;
-	public boolean addition = false;
-	public boolean soustraction = false;
-	public boolean multiplication = false;
-	public boolean division = false;
-	public String textNumber = "";
-	public double numberOneDouble = 0;
-	public double numberTwoDouble = 0;
-	public double intNumber;
-	public String text = "";
-	public static Pattern pattern;
-    public static Matcher matcher;
+	private static DecimalFormat df2 = new DecimalFormat("#.##");
+	private double sum = 0;
+	private boolean addition = false;
+	private boolean soustraction = false;
+	private boolean multiplication = false;
+	private boolean division = false;
+	private double numberOneDouble = 0;
+	private double numberTwoDouble = 0;
+	private String text = "";
+	
 	/**
 	 * Launch the application.
 	 */
@@ -76,12 +73,14 @@ public class calculatrice {
 		frmCalculatrice.getContentPane().setLayout(null);
 		
 		textField = new JTextField();
+		textField.setFont(new Font("SansSerif", Font.PLAIN, 30));
+		textField.setHorizontalAlignment(SwingConstants.RIGHT);
 		textField.setEditable(false);
 		textField.setBounds(10, 15, 500, 100);
 		frmCalculatrice.getContentPane().add(textField);
 		textField.setColumns(10);
 		
-		JButton button_7 = new JButton("7");
+		JButton button_7 = new JButton("7"); 
 		button_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String textNumber = textField.getText() + button_7.getText();
@@ -151,8 +150,6 @@ public class calculatrice {
 			public void actionPerformed(ActionEvent e) {
 				textField.setText("");
 				sum = 0;
-				textNumber = "";
-				intNumber = 0;
 				text = "";
 				System.out.println(text);
 			}
@@ -274,11 +271,24 @@ public class calculatrice {
 		button_soust.setBounds(265, 257, 75, 55);
 		frmCalculatrice.getContentPane().add(button_soust);
 		
-		JButton button_carre = new JButton("x2");
+		JButton button_carre = new JButton("x²");
+		button_carre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String textNumber = textField.getText();
+				soustraction = false;
+				addition = false;
+				multiplication = false;
+				division = false;
+				numberOneDouble = Double.parseDouble(textNumber);
+				Double sum = numberOneDouble * numberOneDouble;
+				textField.setText(df2.format(sum));
+				System.out.println(numberOneDouble * numberOneDouble);
+			}
+		});
 		button_carre.setBounds(350, 257, 75, 55);
 		frmCalculatrice.getContentPane().add(button_carre);
 		
-		JButton button_racine2 = new JButton("v");
+		JButton button_racine2 = new JButton("√");
 		
 		button_racine2.setBounds(435, 257, 75, 55);
 		frmCalculatrice.getContentPane().add(button_racine2);
@@ -332,61 +342,33 @@ public class calculatrice {
 		JButton button_egal = new JButton("=");
 		button_egal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				String textNumber = textField.getText();
-				numberTwoDouble = Double.parseDouble(textNumber);
-				if (addition) {
+				try {
+					String textNumber = textField.getText();
+					numberTwoDouble = Double.parseDouble(textNumber);
 					
-					sum = numberOneDouble + numberTwoDouble;
-					String textSum = Double.toString(sum);
-					pattern = Pattern.compile(".0");
-			        matcher = pattern.matcher(textSum);
-			        if(matcher.find()) {
-			            String resultFinal = textSum.substring(0, textSum.length() -2);
-			            textField.setText(resultFinal);
-			        }else {
-			        	textField.setText(Double.toString(sum));
-			        }
+					if (addition) {
+						
+						sum = numberOneDouble + numberTwoDouble;
+				        textField.setText(df2.format(sum));
+				        
+					}else if(soustraction) {
+						
+						sum = numberOneDouble - numberTwoDouble;
+						textField.setText(df2.format(sum));
+				        
+					}else if(multiplication) {
+						
+						sum = numberOneDouble * numberTwoDouble;
+						textField.setText(df2.format(sum));
+						
+					}else if(division) {
+						
+						sum = numberOneDouble / numberTwoDouble;
+						textField.setText(df2.format(sum));
+					}
 					
-					
-				}else if(soustraction) {
-					
-					sum = numberOneDouble - numberTwoDouble;
-					String textSum = Double.toString(sum);
-					pattern = Pattern.compile(".0");
-			        matcher = pattern.matcher(textSum);
-			        if(matcher.find()) {
-			            String resultFinal = textSum.substring(0, textSum.length() -2);
-			            textField.setText(resultFinal);
-			        }else {
-			        	textField.setText(Double.toString(sum));
-			        }
-			        
-				}else if(multiplication) {
-					
-					sum = numberOneDouble * numberTwoDouble;
-					String textSum = Double.toString(sum);
-					pattern = Pattern.compile(".0");
-			        matcher = pattern.matcher(textSum);
-			        if(matcher.find()) {
-			            String resultFinal = textSum.substring(0, textSum.length() -2);
-			            textField.setText(resultFinal);
-			        }else {
-			        	textField.setText(Double.toString(sum));
-			        }
-					
-				}else if(division) {
-					
-					sum = numberOneDouble / numberTwoDouble;
-					String textSum = Double.toString(sum);
-					pattern = Pattern.compile(".0");
-			        matcher = pattern.matcher(textSum);
-			        if(matcher.find()) {
-			            String resultFinal = textSum.substring(0, textSum.length() -2);
-			            textField.setText(resultFinal);
-			        }else {
-			        	textField.setText(Double.toString(sum));
-			        }
+				} catch (Exception e2) {
+					System.out.println("les variables sont vides");
 				}
 				
 			}
