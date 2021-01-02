@@ -83,6 +83,7 @@ public class calculatrice {
 		JButton button_7 = new JButton("7"); 
 		button_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textField.setText("");
 				String textNumber = textField.getText() + button_7.getText();
 				textField.setText(textNumber);
 			}
@@ -93,6 +94,7 @@ public class calculatrice {
 		JButton button_8 = new JButton("8");
 		button_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textField.setText("");
 				String textNumber = textField.getText() + button_8.getText();
 				textField.setText(textNumber);
 			}
@@ -103,6 +105,7 @@ public class calculatrice {
 		JButton button_9 = new JButton("9");
 		button_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textField.setText("");
 				String textNumber = textField.getText() + button_9.getText();
 				textField.setText(textNumber);
 			}
@@ -160,6 +163,7 @@ public class calculatrice {
 		JButton button_4 = new JButton("4");
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textField.setText("");
 				String textNumber = textField.getText() + button_4.getText();
 				textField.setText(textNumber);
 			}
@@ -170,9 +174,8 @@ public class calculatrice {
 		JButton button_5 = new JButton("5");
 		button_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				textField.setText("");
 				String textNumber = textField.getText() + button_5.getText();
-				
 				textField.setText(textNumber);
 			}
 		});
@@ -182,6 +185,7 @@ public class calculatrice {
 		JButton button_6 = new JButton("6");
 		button_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textField.setText("");
 				String textNumber = textField.getText() + button_6.getText();
 				textField.setText(textNumber);
 			}
@@ -198,7 +202,7 @@ public class calculatrice {
 				soustraction = false;
 				division = false;
 				numberOneDouble = Double.parseDouble(textNumber);
-				textField.setText("");
+				textField.setText("x");
 				System.out.println(numberOneDouble);
 			}
 		});
@@ -228,6 +232,7 @@ public class calculatrice {
 		JButton button_1 = new JButton("1");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textField.setText("");
 				String textNumber = textField.getText() + button_1.getText();
 				textField.setText(textNumber);
 			}
@@ -238,6 +243,7 @@ public class calculatrice {
 		JButton button_2 = new JButton("2");
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textField.setText("");
 				String textNumber = textField.getText() + button_2.getText();
 				textField.setText(textNumber);
 			}
@@ -248,6 +254,7 @@ public class calculatrice {
 		JButton button_3 = new JButton("3");
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textField.setText("");
 				String textNumber = textField.getText() + button_3.getText();
 				textField.setText(textNumber);
 			}
@@ -264,7 +271,7 @@ public class calculatrice {
 				multiplication = false;
 				division = false;
 				numberOneDouble = Double.parseDouble(textNumber);
-				textField.setText("");
+				textField.setText("-");
 				System.out.println(numberOneDouble);
 			}
 		});
@@ -289,6 +296,13 @@ public class calculatrice {
 		frmCalculatrice.getContentPane().add(button_carre);
 		
 		JButton button_racine2 = new JButton("√");
+		button_racine2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String textNumber = textField.getText();
+				double square = Math.sqrt(Double.parseDouble(textNumber));
+				textField.setText(df2.format(square));
+			}
+		});
 		
 		button_racine2.setBounds(435, 257, 75, 55);
 		frmCalculatrice.getContentPane().add(button_racine2);
@@ -296,6 +310,7 @@ public class calculatrice {
 		JButton button_0 = new JButton("0");
 		button_0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textField.setText("");
 				String textNumber = textField.getText() + button_0.getText();
 				textField.setText(textNumber);
 			}
@@ -317,8 +332,9 @@ public class calculatrice {
 		button_pourcent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String textNumber = textField.getText() + button_pourcent.getText();
-				textField.setText(textNumber);
+				String textNumber = textField.getText();
+				double pourcent = Double.parseDouble(textNumber) / 100;
+				textField.setText(df2.format(pourcent));
 			}
 		});
 		button_pourcent.setBounds(179, 322, 75, 55);
@@ -327,13 +343,18 @@ public class calculatrice {
 		JButton button_add = new JButton("+");
 		button_add.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String textNumber = textField.getText();
-				addition = true;
-				soustraction = false;
-				multiplication = false;
-				numberOneDouble = Double.parseDouble(textNumber);
-				textField.setText("");
-				System.out.println(numberOneDouble);
+				try {
+					String textNumber = textField.getText();
+					addition = true;
+					soustraction = false;
+					multiplication = false;
+					numberOneDouble = Double.parseDouble(textNumber);
+					textField.setText("+");
+				} catch (Exception e2) {
+					System.out.println("Cette action n'est pas possible");
+				}
+				
+				
 			}
 		});
 		button_add.setBounds(265, 322, 75, 55);
@@ -370,7 +391,6 @@ public class calculatrice {
 				} catch (Exception e2) {
 					System.out.println("les variables sont vides");
 				}
-				
 			}
 		});
 		
