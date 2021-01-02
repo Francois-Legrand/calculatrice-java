@@ -29,7 +29,6 @@ public class calculatrice {
 	public double numberTwoDouble = 0;
 	public double intNumber;
 	public String text = "";
-	public ArrayList<Double> tableNumber = new ArrayList<Double>();
 	public static Pattern pattern;
     public static Matcher matcher;
 	/**
@@ -155,7 +154,6 @@ public class calculatrice {
 				textNumber = "";
 				intNumber = 0;
 				text = "";
-				tableNumber = new ArrayList<Double>();
 				System.out.println(text);
 			}
 		});
@@ -201,6 +199,7 @@ public class calculatrice {
 				addition = false;
 				multiplication = true;
 				soustraction = false;
+				division = false;
 				numberOneDouble = Double.parseDouble(textNumber);
 				textField.setText("");
 				System.out.println(numberOneDouble);
@@ -233,7 +232,6 @@ public class calculatrice {
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String textNumber = textField.getText() + button_1.getText();
-				intNumber = Integer.parseInt(textNumber);
 				textField.setText(textNumber);
 			}
 		});
@@ -267,6 +265,7 @@ public class calculatrice {
 				soustraction = true;
 				addition = false;
 				multiplication = false;
+				division = false;
 				numberOneDouble = Double.parseDouble(textNumber);
 				textField.setText("");
 				System.out.println(numberOneDouble);
@@ -337,6 +336,7 @@ public class calculatrice {
 				String textNumber = textField.getText();
 				numberTwoDouble = Double.parseDouble(textNumber);
 				if (addition) {
+					
 					sum = numberOneDouble + numberTwoDouble;
 					String textSum = Double.toString(sum);
 					pattern = Pattern.compile(".0");
@@ -352,18 +352,41 @@ public class calculatrice {
 				}else if(soustraction) {
 					
 					sum = numberOneDouble - numberTwoDouble;
-					textField.setText(Double.toString(sum));
+					String textSum = Double.toString(sum);
+					pattern = Pattern.compile(".0");
+			        matcher = pattern.matcher(textSum);
+			        if(matcher.find()) {
+			            String resultFinal = textSum.substring(0, textSum.length() -2);
+			            textField.setText(resultFinal);
+			        }else {
+			        	textField.setText(Double.toString(sum));
+			        }
+			        
 				}else if(multiplication) {
 					
 					sum = numberOneDouble * numberTwoDouble;
-					
-					textField.setText(Double.toString(Math.abs(sum)));
+					String textSum = Double.toString(sum);
+					pattern = Pattern.compile(".0");
+			        matcher = pattern.matcher(textSum);
+			        if(matcher.find()) {
+			            String resultFinal = textSum.substring(0, textSum.length() -2);
+			            textField.setText(resultFinal);
+			        }else {
+			        	textField.setText(Double.toString(sum));
+			        }
 					
 				}else if(division) {
 					
 					sum = numberOneDouble / numberTwoDouble;
-					
-					textField.setText(Double.toString(Math.abs(sum)));
+					String textSum = Double.toString(sum);
+					pattern = Pattern.compile(".0");
+			        matcher = pattern.matcher(textSum);
+			        if(matcher.find()) {
+			            String resultFinal = textSum.substring(0, textSum.length() -2);
+			            textField.setText(resultFinal);
+			        }else {
+			        	textField.setText(Double.toString(sum));
+			        }
 				}
 				
 			}
