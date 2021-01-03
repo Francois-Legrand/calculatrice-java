@@ -116,14 +116,24 @@ public class calculatrice {
 		JButton button_div = new JButton("/");
 		button_div.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String textNumber = textField.getText();
-				division = true;
-				soustraction = false;
-				addition = false;
-				multiplication = false;
-				numberOneDouble = Double.parseDouble(textNumber);
-				textField.setText("");
-				System.out.println(numberOneDouble);
+				try {
+					addition = false;
+					soustraction = false;
+					multiplication = false;
+					division = true;
+					
+					if(sum == null) {
+						sum = numberOneDouble;
+						System.out.println(sum);
+					}else {
+						System.out.println("on est ici "+sum+ " / " +numberOneDouble );
+						sum /= numberOneDouble;
+						textField.setText(df2.format(sum));
+					}
+				} catch (Exception e2) {
+					
+					System.out.println("Cette action n'est pas possible");
+				}
 			}
 		});
 		button_div.setBounds(265, 125, 75, 55);
@@ -199,7 +209,7 @@ public class calculatrice {
 					addition = false;
 					soustraction = false;
 					multiplication = true;
-					
+					division = false;
 					if(sum == null) {
 						sum = numberOneDouble;
 						System.out.println(sum);
@@ -279,7 +289,7 @@ public class calculatrice {
 					addition = false;
 					soustraction = true;
 					multiplication = false;
-					
+					division = false;
 					if(sum == null) {
 						sum = numberOneDouble;
 						System.out.println(sum);
@@ -366,7 +376,7 @@ public class calculatrice {
 					addition = true;
 					soustraction = false;
 					multiplication = false;
-					
+					division = false;
 					if(sum == null) {
 						sum = numberOneDouble;
 						System.out.println(sum);
@@ -417,8 +427,11 @@ public class calculatrice {
 						
 					}else if(division) {
 						
-						sum = numberOneDouble / numberTwoDouble;
-						textField.setText(df2.format(sum));
+						Double sumFinal = sum / numberOneDouble;
+				        textField.setText(df2.format(sumFinal));
+				        sum = sumFinal;
+				        numberOneDouble = null;
+				        System.out.println("sum = "+sum);
 					}
 					
 				} catch (Exception e2) {
