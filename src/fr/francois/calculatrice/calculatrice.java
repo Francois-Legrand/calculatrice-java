@@ -19,13 +19,13 @@ public class calculatrice {
 	private JFrame frmCalculatrice;
 	private JTextField textField;
 	private static DecimalFormat df2 = new DecimalFormat("#.##");
-	private double sum = 0;
+	private Double sum;
 	private boolean addition = false;
 	private boolean soustraction = false;
 	private boolean multiplication = false;
 	private boolean division = false;
-	private double numberOneDouble = 0;
-	private double numberTwoDouble = 0;
+	private Double numberOneDouble;
+	private Double numberTwoDouble;
 	private String text = "";
 	
 	/**
@@ -152,9 +152,8 @@ public class calculatrice {
 		button_c.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textField.setText("");
-				sum = 0;
-				text = "";
-				System.out.println(text);
+				sum = null;
+				numberOneDouble = null;
 			}
 		});
 		button_c.setBounds(435, 125, 75, 55);
@@ -196,14 +195,23 @@ public class calculatrice {
 		JButton button_mult = new JButton("x");
 		button_mult.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String textNumber = textField.getText();
-				addition = false;
-				multiplication = true;
-				soustraction = false;
-				division = false;
-				numberOneDouble = Double.parseDouble(textNumber);
-				textField.setText("x");
-				System.out.println(numberOneDouble);
+				try {
+					addition = false;
+					soustraction = false;
+					multiplication = true;
+					
+					if(sum == null) {
+						sum = numberOneDouble;
+						System.out.println(sum);
+					}else {
+						System.out.println("on est ici "+sum+ " * " +numberOneDouble );
+						sum *= numberOneDouble;
+						textField.setText(df2.format(sum));
+					}
+				} catch (Exception e2) {
+					
+					System.out.println("Cette action n'est pas possible");
+				}
 			}
 		});
 		button_mult.setBounds(265, 190, 75, 55);
@@ -256,6 +264,8 @@ public class calculatrice {
 			public void actionPerformed(ActionEvent e) {
 				textField.setText("");
 				String textNumber = textField.getText() + button_3.getText();
+				numberOneDouble = Double.parseDouble(textNumber);
+				System.out.println(numberOneDouble);
 				textField.setText(textNumber);
 			}
 		});
@@ -265,14 +275,23 @@ public class calculatrice {
 		JButton button_soust = new JButton("-");
 		button_soust.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String textNumber = textField.getText();
-				soustraction = true;
-				addition = false;
-				multiplication = false;
-				division = false;
-				numberOneDouble = Double.parseDouble(textNumber);
-				textField.setText("-");
-				System.out.println(numberOneDouble);
+				try {
+					addition = false;
+					soustraction = true;
+					multiplication = false;
+					
+					if(sum == null) {
+						sum = numberOneDouble;
+						System.out.println(sum);
+					}else {
+						System.out.println("on est ici " +sum+ " - " +numberOneDouble);
+						sum -= numberOneDouble;
+						textField.setText(df2.format(sum));
+					}
+				} catch (Exception e2) {
+					
+					System.out.println("Cette action n'est pas possible");
+				}
 			}
 		});
 		button_soust.setBounds(265, 257, 75, 55);
@@ -344,17 +363,22 @@ public class calculatrice {
 		button_add.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String textNumber = textField.getText();
 					addition = true;
 					soustraction = false;
 					multiplication = false;
-					numberOneDouble = Double.parseDouble(textNumber);
-					textField.setText("+");
+					
+					if(sum == null) {
+						sum = numberOneDouble;
+						System.out.println(sum);
+					}else {
+						System.out.println("on est ici " +sum+ " + " +numberOneDouble);
+						sum += numberOneDouble;
+						textField.setText(df2.format(sum));
+					}
 				} catch (Exception e2) {
+					
 					System.out.println("Cette action n'est pas possible");
 				}
-				
-				
 			}
 		});
 		button_add.setBounds(265, 322, 75, 55);
@@ -369,18 +393,27 @@ public class calculatrice {
 					
 					if (addition) {
 						
-						sum = numberOneDouble + numberTwoDouble;
-				        textField.setText(df2.format(sum));
+						Double sumFinal = sum + numberOneDouble;
+				        textField.setText(df2.format(sumFinal));
+				        sum = sumFinal;
+				        numberOneDouble = null;
+				        System.out.println("sum = "+sum);
 				        
 					}else if(soustraction) {
 						
-						sum = numberOneDouble - numberTwoDouble;
-						textField.setText(df2.format(sum));
+						Double sumFinal = sum - numberOneDouble;
+				        textField.setText(df2.format(sumFinal));
+				        sum = sumFinal;
+				        numberOneDouble = null;
+				        System.out.println("sum = "+sum);
 				        
 					}else if(multiplication) {
 						
-						sum = numberOneDouble * numberTwoDouble;
-						textField.setText(df2.format(sum));
+						Double sumFinal = sum * numberOneDouble;
+				        textField.setText(df2.format(sumFinal));
+				        sum = sumFinal;
+				        numberOneDouble = null;
+				        System.out.println("sum = "+sum);
 						
 					}else if(division) {
 						
