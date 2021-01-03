@@ -1,3 +1,3 @@
 # Calculatrice
 
-![calculator](https://ibb.co/ryL1Cyz)
+![calculator](https://i.ibb.co/GP1bKP8/calculatrice.png)
